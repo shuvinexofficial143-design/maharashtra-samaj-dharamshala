@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <defs>
+    <radialGradient id="background" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="#7a2421"/>
+      <stop offset=".65" stop-color="#5f1717"/>
+      <stop offset="1" stop-color="#2b0809"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8dda3"/>
+      <stop offset="1" stop-color="#e9ad3f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#background)"/>
+  <circle cx="540" cy="770" r="340" fill="none" stroke="#e9ad3f" stroke-opacity=".09" stroke-width="2"/>
+  <circle cx="540" cy="770" r="278" fill="none" stroke="#e9ad3f" stroke-opacity=".13" stroke-width="3"/>
+  <circle cx="540" cy="770" r="205" fill="#4b1011" stroke="#f4cf82" stroke-opacity=".55" stroke-width="7"/>
+  <path fill="url(#gold)" transform="translate(28 350) scale(16)" d="M32 9c4 8 11 11 11 21a11 11 0 0 1-22 0c0-6 3-11 8-16-1 7 2 10 4 11 2-5 1-10-1-16Zm0 34c-9 0-16 4-16 8h32c0-4-7-8-16-8Z"/>
+  <path d="M370 1070h340" stroke="#f4cf82" stroke-opacity=".45" stroke-width="4" stroke-linecap="round"/>
+  <text x="540" y="1190" fill="#fffaf0" font-family="Georgia, serif" font-size="54" font-weight="700" letter-spacing="4" text-anchor="middle">MAHARASHTRA SAMAJ</text>
+  <text x="540" y="1255" fill="#f4cf82" font-family="Arial, sans-serif" font-size="25" font-weight="600" letter-spacing="8" text-anchor="middle">DHARAMSHALA · UJJAIN</text>
+  <circle cx="486" cy="1360" r="4" fill="#e9ad3f"/>
+  <circle cx="540" cy="1360" r="4" fill="#e9ad3f"/>
+  <circle cx="594" cy="1360" r="4" fill="#e9ad3f"/>
+</svg>

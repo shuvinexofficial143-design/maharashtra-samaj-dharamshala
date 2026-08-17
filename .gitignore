@@ -1,0 +1,17 @@
+node_modules
+dist
+*.local
+.env
+.env.*
+!.env.example
+!.env.android
+.DS_Store
+*.tsbuildinfo
+
+.vercel
+
+artifacts/*.idsig
+
+.vercel
+
+artifacts/*.apk

@@ -1,0 +1,50 @@
+{
+  "name": "maharashtra-samaj-dharamshala-demo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc -b --pretty false",
+    "test": "vitest run",
+    "optimize:images": "node scripts/optimize-images.mjs",
+    "preview": "vite preview",
+    "android:web": "vite build --mode android",
+    "android:sync": "npm run android:web && cap sync android",
+    "android:assets": "node scripts/generate-android-assets.mjs",
+    "android:check:ai": "node scripts/check-ai-endpoint.mjs",
+    "android:build": "npm run android:sync && npm run android:assets && node scripts/build-android.mjs",
+    "android:open": "npm run android:sync && npm run android:assets && cap open android",
+    "android:run": "npm run android:sync && npm run android:assets && cap run android"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.0",
+    "@capacitor/app": "8.1.1",
+    "@capacitor/app-launcher": "8.0.1",
+    "@capacitor/browser": "8.0.4",
+    "@capacitor/core": "8.5.0",
+    "@capacitor/splash-screen": "8.0.2",
+    "@vitejs/plugin-react": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.0",
+    "@eslint/js": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "eslint-plugin-react-refresh": "latest",
+    "globals": "latest",
+    "sharp": "^0.35.3",
+    "typescript": "latest",
+    "typescript-eslint": "latest",
+    "vitest": "^4.1.10"
+  }
+}
