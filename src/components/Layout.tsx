@@ -22,9 +22,8 @@ export function Layout({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(() => window.scrollY > 8)
   const location = useLocation()
-  const isManagementPreview = location.pathname.startsWith('/management-preview')
   const isAIAssistant = location.pathname.startsWith('/ai-assistant')
-  const usesMinimalShell = isManagementPreview || isAIAssistant
+  const usesMinimalShell = isAIAssistant
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [location.pathname])
   useEffect(() => { document.body.style.overflow = open ? 'hidden' : ''; return () => { document.body.style.overflow = '' } }, [open])
   useLayoutEffect(() => {
@@ -63,7 +62,7 @@ export function Layout({ children }: { children: ReactNode }) {
       </div>}
       <main id="main-content" className={isAIAssistant ? 'main--ai' : undefined}>{children}</main>
       {!usesMinimalShell && <Footer />}
-      {!location.pathname.startsWith('/admin-demo') && !usesMinimalShell && <div className="floating-action-rail" aria-label={lang === 'hi' ? 'जल्द actions' : 'Quick actions'}>
+      {!usesMinimalShell && <div className="floating-action-rail" aria-label={lang === 'hi' ? 'जल्द actions' : 'Quick actions'}>
         <Link to="/ai-assistant" className="floating-action-rail__ai"><Sparkles /><span>{lang === 'hi' ? 'AI सहायक' : 'Ask AI'}</span></Link>
         <Link to="/booking"><CalendarDays /><span>{lang === 'hi' ? 'बुक करें' : 'Book'}</span></Link>
         <a href={createWhatsappLink()} target="_blank" rel="noreferrer"><MessageCircle /><span>WhatsApp</span></a>
