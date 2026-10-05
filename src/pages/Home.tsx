@@ -10,11 +10,13 @@ export function Home() {
   const navigate = useNavigate()
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
+  const [guests, setGuests] = useState(2)
   const today = new Date().toISOString().split('T')[0]
   const checkAvailability = () => {
     const query = new URLSearchParams()
     if (checkIn) query.set('checkIn', checkIn)
     if (checkOut) query.set('checkOut', checkOut)
+    query.set('guests', String(guests))
     navigate(`/booking?${query.toString()}`)
   }
 
@@ -47,7 +49,7 @@ export function Home() {
           <div className="availability-bar__intro"><span className="mini-icon"><CalendarDays /></span><div><strong>{lang === 'hi' ? 'उपलब्धता जाँचें' : 'Check availability'}</strong><small>{lang === 'hi' ? 'अपनी यात्रा की तारीख चुनें' : 'Select your travel dates'}</small></div></div>
           <label><span>{lang === 'hi' ? 'आगमन' : 'Check-in'}</span><input type="date" min={today} value={checkIn} onChange={e => setCheckIn(e.target.value)} /></label>
           <label><span>{lang === 'hi' ? 'प्रस्थान' : 'Check-out'}</span><input type="date" min={checkIn || today} value={checkOut} onChange={e => setCheckOut(e.target.value)} /></label>
-          <label><span>{lang === 'hi' ? 'अतिथि' : 'Guests'}</span><select defaultValue="2"><option value="1">1 {lang === 'hi' ? 'अतिथि' : 'guest'}</option><option value="2">2 {lang === 'hi' ? 'अतिथि' : 'guests'}</option><option value="4">4 {lang === 'hi' ? 'अतिथि' : 'guests'}</option><option value="5">5+ {lang === 'hi' ? 'अतिथि' : 'guests'}</option></select></label>
+          <label><span>{lang === 'hi' ? 'अतिथि' : 'Guests'}</span><select value={guests} onChange={event => setGuests(Number(event.target.value))}><option value="1">1 {lang === 'hi' ? 'अतिथि' : 'guest'}</option><option value="2">2 {lang === 'hi' ? 'अतिथि' : 'guests'}</option><option value="4">4 {lang === 'hi' ? 'अतिथि' : 'guests'}</option><option value="5">5+ {lang === 'hi' ? 'अतिथि' : 'guests'}</option></select></label>
           <button className="btn btn--primary btn--check" onClick={checkAvailability}>{lang === 'hi' ? 'कक्ष देखें' : 'View rooms'}<ArrowRight size={17} /></button>
         </div>
         <p className="availability-wrap__note"><Sparkles size={13} /> {lang === 'hi' ? 'यह डेमो availability है; वास्तविक उपलब्धता प्रबंधन से पुष्टि होगी।' : 'This is demo availability; actual inventory will be confirmed by management.'}</p>
