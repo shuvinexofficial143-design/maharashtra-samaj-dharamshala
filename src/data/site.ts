@@ -19,10 +19,10 @@ export const siteConfig = {
   socialLinks: [] as { label: string; url: string }[],
   directionsLink: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`,
   address: {
-    hi: 'उज्जैन, मध्य प्रदेश — सटीक परिसर का पता प्रबंधन द्वारा पुष्टि के अधीन है।',
-    en: 'Ujjain, Madhya Pradesh — exact property address to be confirmed by management.',
+    hi: 'उज्जैन, मध्य प्रदेश · सटीक दिशा के लिए कॉल करें।',
+    en: 'Ujjain, Madhya Pradesh · Call for exact directions.',
   } satisfies LocalText,
-  disclaimer: 'Unofficial Demo Concept — Prepared for presentation purposes. Final information, photographs, tariffs and policies require management approval.',
+  disclaimer: 'Room availability, tariffs, facilities and policies are confirmed with the booking request.',
 }
 
 export const roomImage = '/images/concept-room.webp'
@@ -73,7 +73,7 @@ export const facilities = [
   { icon: 'droplets', title: { hi: 'गर्म पानी', en: 'Hot water' }, text: { hi: 'निर्धारित समय पर उपलब्ध', en: 'Available during stated hours' } },
   { icon: 'utensils', title: { hi: 'सामुदायिक भोजन', en: 'Community dining' }, text: { hi: 'सेवा उपलब्धता के अनुसार', en: 'Subject to service availability' } },
   { icon: 'car', title: { hi: 'पार्किंग सहायता', en: 'Parking assistance' }, text: { hi: 'सीमित स्थान, पुष्टि आवश्यक', en: 'Limited space, confirm ahead' } },
-  { icon: 'wifi', title: { hi: 'वाई-फाई', en: 'Wi-Fi access' }, text: { hi: 'साझा क्षेत्रों में डेमो सुविधा', en: 'Demo amenity in common areas' } },
+  { icon: 'wifi', title: { hi: 'वाई-फाई', en: 'Wi-Fi access' }, text: { hi: 'साझा क्षेत्रों में उपलब्धता के अनुसार', en: 'Available in common areas, subject to availability' } },
   { icon: 'shield', title: { hi: 'सुरक्षित परिसर', en: 'Considered safety' }, text: { hi: 'परिवार-अनुकूल वातावरण', en: 'Family-friendly environment' } },
   { icon: 'clock', title: { hi: 'यात्रा सहायता', en: 'Travel assistance' }, text: { hi: 'दर्शन और स्थानीय यात्रा मार्गदर्शन', en: 'Guidance for darshan and local travel' } },
   { icon: 'accessibility', title: { hi: 'वरिष्ठजन सहयोग', en: 'Senior-friendly help' }, text: { hi: 'कमरे की जरूरतें पहले बताएं', en: 'Share room needs in advance' } },
@@ -81,21 +81,21 @@ export const facilities = [
 
 export const facilityGroups = [
   {
-    id: 'stay', title: { hi: 'ठहराव', en: 'Stay' }, description: { hi: 'कक्ष में प्रस्तावित आवश्यक सुविधाएँ', en: 'Proposed essentials within your room' },
+    id: 'stay', title: { hi: 'ठहराव', en: 'Stay' }, description: { hi: 'कक्ष में उपयोगी आवश्यक सुविधाएँ', en: 'Useful essentials for your room' },
     items: [
-      { icon: 'bed', title: { hi: 'स्वच्छ कक्ष', en: 'Clean rooms' }, text: { hi: 'स्वच्छता मानक अंतिम संचालन योजना के अनुसार', en: 'Housekeeping standards subject to the final operations plan' } },
+      { icon: 'bed', title: { hi: 'स्वच्छ कक्ष', en: 'Clean rooms' }, text: { hi: 'कक्ष की सफाई और लिनेन संबंधी जानकारी अनुरोध के समय पुष्टि करें', en: 'Confirm housekeeping and linen details with your request' } },
       { icon: 'droplets', title: { hi: 'अटैच्ड बाथरूम', en: 'Attached bathroom' }, text: { hi: 'चुनी गई श्रेणी के अनुसार पुष्टि आवश्यक', en: 'Confirmation required for the selected category' } },
-      { icon: 'accessibility', title: { hi: 'फैमिली कक्ष', en: 'Family rooms' }, text: { hi: 'परिवार और छोटे समूहों के लिए प्रस्तावित', en: 'Proposed for families and small groups' } },
+      { icon: 'accessibility', title: { hi: 'फैमिली कक्ष', en: 'Family rooms' }, text: { hi: 'परिवार और छोटे समूहों के लिए उपयुक्त', en: 'Suitable for families and small groups' } },
       { icon: 'clock', title: { hi: 'एसी / नॉन-एसी विकल्प', en: 'AC / Non-AC options' }, text: { hi: 'श्रेणी और उपलब्धता के अनुसार', en: 'Subject to category and availability' } },
     ],
   },
   {
     id: 'convenience', title: { hi: 'यात्री सुविधा', en: 'Convenience' }, description: { hi: 'आगमन और परिसर उपयोग में सहयोग', en: 'Support around arrival and property use' },
     items: [
-      { icon: 'droplets', title: { hi: 'पीने का पानी', en: 'Drinking water' }, text: { hi: 'अंतिम व्यवस्था प्रबंधन से पुष्टि होगी', en: 'Final arrangement to be confirmed by management' } },
+      { icon: 'droplets', title: { hi: 'पीने का पानी', en: 'Drinking water' }, text: { hi: 'उपलब्धता और समय आगमन से पहले पूछें', en: 'Confirm availability and timing before arrival' } },
       { icon: 'car', title: { hi: 'पार्किंग', en: 'Parking' }, text: { hi: 'सीमित स्थान; आगमन से पहले पूछें', en: 'Limited space; enquire before arrival' } },
       { icon: 'shield', title: { hi: 'रिसेप्शन सहायता', en: 'Reception support' }, text: { hi: 'संपर्क समय अंतिम पुष्टि के अधीन', en: 'Contact hours subject to final confirmation' } },
-      { icon: 'bed', title: { hi: 'लगेज सहायता', en: 'Luggage assistance' }, text: { hi: 'उपलब्धता के आधार पर प्रस्तावित सहयोग', en: 'Proposed assistance subject to availability' } },
+      { icon: 'bed', title: { hi: 'लगेज सहायता', en: 'Luggage assistance' }, text: { hi: 'उपलब्धता के आधार पर सहायता', en: 'Assistance subject to availability' } },
     ],
   },
   {
@@ -119,21 +119,21 @@ export const nearbyPlaces = [
 ] as const
 
 export const faqs = [
-  { category: { hi: 'बुकिंग', en: 'Booking' }, q: { hi: 'क्या वेबसाइट पर कमरा तुरंत पक्का हो जाता है?', en: 'Is a room instantly confirmed online?' }, a: { hi: 'नहीं। यह डेमो request flow है। वास्तविक बुकिंग प्रबंधन की पुष्टि के बाद ही पक्की होगी।', en: 'No. This is a demo request flow. A real booking would be confirmed only by management.' } },
+  { category: { hi: 'बुकिंग', en: 'Booking' }, q: { hi: 'क्या वेबसाइट पर कमरा तुरंत पक्का हो जाता है?', en: 'Is a room instantly confirmed online?' }, a: { hi: 'नहीं। वेबसाइट booking request तैयार करती है; कक्ष की अंतिम पुष्टि उपलब्धता की समीक्षा के बाद होती है।', en: 'No. The website prepares a booking request; final room confirmation follows an availability review.' } },
   { category: { hi: 'चेक-इन / चेक-आउट', en: 'Check-in / Check-out' }, q: { hi: 'चेक-इन और चेक-आउट का समय क्या है?', en: 'What are the check-in and check-out times?' }, a: { hi: 'अंतिम नीति प्रबंधन द्वारा पुष्टि की जाएगी। यात्रा से पहले फोन पर समय जाँचें।', en: 'The final policy will be confirmed by management. Check timings by phone before travel.' } },
-  { category: { hi: 'परिवार', en: 'Families' }, q: { hi: 'क्या परिवार के लिए बड़े कक्ष उपलब्ध हैं?', en: 'Are larger rooms available for families?' }, a: { hi: 'डेमो में फैमिली और डीलक्स फैमिली श्रेणियाँ दिखाई गई हैं; वास्तविक inventory की पुष्टि आवश्यक होगी।', en: 'Family and deluxe family categories are shown in this demo; real inventory will require confirmation.' } },
+  { category: { hi: 'परिवार', en: 'Families' }, q: { hi: 'क्या परिवार के लिए बड़े कक्ष उपलब्ध हैं?', en: 'Are larger rooms available for families?' }, a: { hi: 'फैमिली और डीलक्स फैमिली कक्ष उपलब्ध विकल्पों में शामिल हैं; चुनी तारीखों की उपलब्धता अनुरोध के समय पुष्टि करें।', en: 'Family and Deluxe Family rooms are listed options; confirm availability for your dates with the request.' } },
   { category: { hi: 'कक्ष', en: 'Rooms' }, q: { hi: 'क्या भोजन और आवश्यक सुविधाएँ उपलब्ध हैं?', en: 'Are meals and essential amenities available?' }, a: { hi: 'सामुदायिक भोजन और अन्य amenities प्रस्तावित रूप में दिखाए गए हैं। अंतिम सुविधा प्रबंधन से पुष्टि करें।', en: 'Community dining and other amenities are shown as proposed. Confirm final facilities with management.' } },
-  { category: { hi: 'भुगतान', en: 'Payment' }, q: { hi: 'क्या ऑनलाइन भुगतान लिया जाता है?', en: 'Is online payment collected?' }, a: { hi: 'इस डेमो में कोई वास्तविक भुगतान नहीं लिया जाता। Production payment प्रक्रिया management approval के बाद तय होगी।', en: 'No real payment is collected in this demo. Any production payment process will require management approval.' } },
+  { category: { hi: 'भुगतान', en: 'Payment' }, q: { hi: 'क्या ऑनलाइन भुगतान लिया जाता है?', en: 'Is online payment collected?' }, a: { hi: 'इस booking flow में ऑनलाइन भुगतान नहीं लिया जाता। भुगतान का तरीका और अंतिम राशि पुष्टि के समय बताई जाएगी।', en: 'Online payment is not collected in this booking flow. Payment method and final amount are shared at confirmation.' } },
   { category: { hi: 'संपर्क', en: 'Contact' }, q: { hi: 'सटीक लोकेशन कैसे मिलेगी?', en: 'How do I find the exact location?' }, a: { hi: 'Directions बटन Ujjain में संस्था के लिए Maps search खोलता है। अंतिम pin प्रबंधन से सत्यापित होगी।', en: 'The Directions button opens a Maps search in Ujjain. The final pin should be verified by management.' } },
   { category: { hi: 'महाकाल यात्री', en: 'Mahakal Visitors' }, q: { hi: 'क्या महाकाल दर्शन के लिए यात्रा सहायता मिलेगी?', en: 'Is guidance available for Mahakal darshan travel?' }, a: { hi: 'स्थानीय मार्गदर्शन को प्रस्तावित सेवा के रूप में दिखाया गया है। दर्शन timing और प्रवेश नियम आधिकारिक स्रोत से जाँचें।', en: 'Local guidance is shown as a proposed service. Verify darshan timings and entry rules with official sources.' } },
-  { category: { hi: 'रद्दीकरण', en: 'Cancellation' }, q: { hi: 'रद्दीकरण और refund policy क्या है?', en: 'What is the cancellation and refund policy?' }, a: { hi: 'अंतिम policy प्रबंधन द्वारा पुष्टि की जाएगी। इस demo में कोई वास्तविक payment या refund नहीं होता।', en: 'The final policy will be confirmed by management. No real payment or refund occurs in this demo.' } },
+  { category: { hi: 'रद्दीकरण', en: 'Cancellation' }, q: { hi: 'रद्दीकरण और refund policy क्या है?', en: 'What is the cancellation and refund policy?' }, a: { hi: 'रद्दीकरण और refund की शर्तें भुगतान या अंतिम पुष्टि से पहले प्रबंधन से जाँचें।', en: 'Confirm cancellation and refund terms with management before payment or final confirmation.' } },
 ] as const
 
 export const policies = [
   { hi: 'सरकारी फोटो पहचान पत्र चेक-इन पर आवश्यक हो सकता है।', en: 'Government photo ID may be required at check-in.' },
   { hi: 'बुकिंग request उपलब्धता और प्रबंधन की पुष्टि के अधीन है।', en: 'Booking requests are subject to availability and management confirmation.' },
   { hi: 'टैरिफ, बच्चों की नीति और अतिरिक्त बिस्तर शुल्क अंतिम पुष्टि के अधीन हैं।', en: 'Tariffs, child policy and extra-bed charges are subject to final confirmation.' },
-  { hi: 'रद्दीकरण और refund policy production launch से पहले जोड़ी जाएगी।', en: 'Cancellation and refund policy will be added before production launch.' },
+  { hi: 'रद्दीकरण और refund की शर्तें अंतिम पुष्टि से पहले जाँचें।', en: 'Confirm cancellation and refund terms before final confirmation.' },
 ] as const
 
 export const gallery = [
