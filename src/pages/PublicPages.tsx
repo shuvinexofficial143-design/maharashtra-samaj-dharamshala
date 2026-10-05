@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Bot, Building2, Check, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Compass, HeartHandshake, Map, MapPin, Maximize2, MessageCircle, Minus, Phone, Plus, Send, ShieldCheck, Sparkles, Users, X } from 'lucide-react'
 import { AmenityIcon, AvailabilityBadge, DemoNotice, PageHero, PageMeta, RoomCard, SectionHeading, TrustStrip } from '../components/Shared'
@@ -7,6 +7,13 @@ import { facilityGroups, facilityImage, faqs, gallery, heroImage, nearbyPlaces, 
 import { createPlaceDirectionsLink, createWhatsappLink } from '../services/contactLinks'
 import { handleImageError } from '../services/imageFallback'
 import { useToast } from '../context/ToastContext'
+
+function addDays(date: string, days: number) {
+  if (!date) return ''
+  const parsed = new Date(`${date}T12:00:00`)
+  parsed.setDate(parsed.getDate() + days)
+  return parsed.toISOString().split('T')[0]
+}
 
 export function Rooms() {
   const { lang } = useLanguage()
@@ -40,6 +47,7 @@ export function RoomDetails() {
   const [checkOut, setCheckOut] = useState('')
   const [guests, setGuests] = useState(2)
   const today = new Date().toISOString().split('T')[0]
+  const checkOutMin = checkIn ? addDays(checkIn, 1) : today
   const room = rooms.find(item => item.id === roomId)
   if (!room) return <NotFound />
   const bookingQuery = new URLSearchParams({ room: room.id, guests: String(guests) })
@@ -61,7 +69,7 @@ export function RoomDetails() {
       <Link className="back-link" to="/rooms"><ArrowLeft size={16} />{lang === 'hi' ? 'सभी कक्ष' : 'All rooms'}</Link>
       <div className="detail-gallery detail-gallery--selectable"><div className="detail-gallery__main"><img src={activeImage} alt={`${tx(room.name)} — ${lang === 'hi' ? 'प्रतीकात्मक दृश्य' : 'illustrative view'}`} onError={handleImageError} /><span className="concept-label">{lang === 'hi' ? 'प्रतीकात्मक दृश्य' : 'Illustrative view'}</span></div><div className="detail-thumbnails" aria-label={lang === 'hi' ? 'कक्ष चित्र चुनें' : 'Choose a room image'}>{roomGallery.map((image, index) => <button key={`${image}-${index}`} className={activeImageIndex === index ? 'active' : ''} onClick={() => setActiveImageIndex(index)} aria-label={`${lang === 'hi' ? 'चित्र' : 'Image'} ${index + 1}`} aria-pressed={activeImageIndex === index}><img src={image} alt="" onError={handleImageError} /></button>)}</div></div>
       <div className="detail-layout"><div className="detail-content"><div className="detail-heading"><div><AvailabilityBadge status={room.availability} /><h1>{tx(room.name)}</h1><p>{tx(room.tagline)}</p></div><div><strong>₹{room.tariff.toLocaleString('en-IN')}</strong><small>/{lang === 'hi' ? 'रात*' : 'night*'}</small></div></div><p className="detail-description">{tx(room.description)}</p><div className="detail-facts">{details.map(([Icon, label, value]) => <article key={label}><Icon /><span><small>{label}</small><strong>{value}</strong></span></article>)}</div><h2>{lang === 'hi' ? 'कक्ष में उपलब्ध' : 'Room amenities'}</h2><div className="amenity-checks">{room.amenities.map(item => <span key={item.en}><Check />{tx(item)}</span>)}</div><section className="suitable-panel"><div><span className="eyebrow">{lang === 'hi' ? 'किसके लिए उपयुक्त' : 'Suitable for'}</span><h2>{lang === 'hi' ? 'आपकी यात्रा के अनुरूप' : 'Designed around your visit'}</h2></div><div>{room.suitableFor.map(item => <span key={item.en}><CheckCircle2 />{tx(item)}</span>)}</div></section><div className="detail-info"><h2>{lang === 'hi' ? 'महत्वपूर्ण जानकारी' : 'Helpful information'}</h2>{policies.map(item => <p key={item.en}><CheckCircle2 />{item[lang]}</p>)}</div></div>
-      <aside className="booking-card"><div><small>{lang === 'hi' ? 'प्रति रात्रि टैरिफ' : 'Tariff, per night'}</small><p><strong>₹{room.tariff.toLocaleString('en-IN')}</strong> <span>+ {lang === 'hi' ? 'लागू शुल्क' : 'applicable charges'}</span></p></div><hr /><label>{lang === 'hi' ? 'आगमन' : 'Check-in'}<input type="date" min={today} value={checkIn} onChange={event => { const value = event.target.value; setCheckIn(value); if (checkOut && checkOut <= value) setCheckOut('') }} /></label><label>{lang === 'hi' ? 'प्रस्थान' : 'Check-out'}<input type="date" min={checkIn || today} value={checkOut} onChange={event => setCheckOut(event.target.value)} /></label><label>{lang === 'hi' ? 'अतिथि' : 'Guests'}<select value={guests} onChange={event => setGuests(Number(event.target.value))}>{Array.from({ length: Number(room.occupancy) }, (_, index) => index + 1).map(count => <option key={count} value={count}>{count}</option>)}</select></label><Link className={`btn btn--primary btn--block ${room.availability === 'soldout' ? 'is-disabled' : ''}`} to={bookingUrl}>{lang === 'hi' ? 'बुकिंग अनुरोध शुरू करें' : 'Start booking request'}<ArrowRight size={17} /></Link><div className="booking-card__contact"><a href={`tel:${siteConfig.phoneLink}`}><Phone />{lang === 'hi' ? 'कॉल' : 'Call'}</a><a href={createWhatsappLink(`Namaste, I would like to enquire about the ${room.name.en} at ${siteConfig.businessName}, ${siteConfig.location.split(',')[0]}.`)} target="_blank" rel="noreferrer"><MessageCircle />WhatsApp</a></div><Link className="booking-card__ai" to="/ai-assistant?prompt=family"><Bot />{lang === 'hi' ? 'AI से room guidance लें' : 'Ask AI about this room'}<ArrowRight /></Link><p className="booking-card__note"><ShieldCheck />{lang === 'hi' ? 'कोई ऑनलाइन payment नहीं। प्रबंधन की पुष्टि आवश्यक।' : 'No online payment. Management confirmation required.'}</p></aside></div>
+      <aside className="booking-card"><div><small>{lang === 'hi' ? 'प्रति रात्रि टैरिफ' : 'Tariff, per night'}</small><p><strong>₹{room.tariff.toLocaleString('en-IN')}</strong> <span>+ {lang === 'hi' ? 'लागू शुल्क' : 'applicable charges'}</span></p></div><hr /><label>{lang === 'hi' ? 'आगमन' : 'Check-in'}<input type="date" min={today} value={checkIn} onChange={event => { const value = event.target.value; setCheckIn(value); if (checkOut && checkOut <= value) setCheckOut('') }} /></label><label>{lang === 'hi' ? 'प्रस्थान' : 'Check-out'}<input type="date" min={checkOutMin} value={checkOut} onChange={event => setCheckOut(event.target.value)} /></label><label>{lang === 'hi' ? 'अतिथि' : 'Guests'}<select value={guests} onChange={event => setGuests(Number(event.target.value))}>{Array.from({ length: Number(room.occupancy) }, (_, index) => index + 1).map(count => <option key={count} value={count}>{count}</option>)}</select></label>{room.availability === 'soldout' ? <button className="btn btn--primary btn--block is-disabled" type="button" disabled>{lang === 'hi' ? 'अभी उपलब्ध नहीं' : 'Currently unavailable'}</button> : <Link className="btn btn--primary btn--block" to={bookingUrl}>{lang === 'hi' ? 'बुकिंग अनुरोध शुरू करें' : 'Start booking request'}<ArrowRight size={17} /></Link>}<div className="booking-card__contact"><a href={`tel:${siteConfig.phoneLink}`}><Phone />{lang === 'hi' ? 'कॉल' : 'Call'}</a><a href={createWhatsappLink(`Namaste, I would like to enquire about the ${room.name.en} at ${siteConfig.businessName}, ${siteConfig.location.split(',')[0]}.`)} target="_blank" rel="noreferrer"><MessageCircle />WhatsApp</a></div><Link className="booking-card__ai" to="/ai-assistant?prompt=family"><Bot />{lang === 'hi' ? 'AI से room guidance लें' : 'Ask AI about this room'}<ArrowRight /></Link><p className="booking-card__note"><ShieldCheck />{lang === 'hi' ? 'कोई ऑनलाइन payment नहीं। प्रबंधन की पुष्टि आवश्यक।' : 'No online payment. Management confirmation required.'}</p></aside></div>
       <section className="similar-rooms"><div className="section-top"><SectionHeading eyebrow={lang === 'hi' ? 'अन्य विकल्प' : 'You may also consider'} title={lang === 'hi' ? 'मिलते-जुलते कक्ष' : 'Similar room choices'} /><Link className="text-link" to="/rooms">{lang === 'hi' ? 'सभी कक्ष' : 'All rooms'}<ArrowRight /></Link></div><div className="room-grid">{similarRooms.map(item => <RoomCard key={item.id} room={item} />)}</div></section>
     </div></section>
   </>
@@ -77,14 +85,15 @@ export function Gallery() {
   const [filter, setFilter] = useState('All')
   const [active, setActive] = useState<number | null>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const lightboxRef = useRef<HTMLDivElement>(null)
   const categories = ['All', ...Array.from(new Set(gallery.map(item => item.tag.en)))]
-  const visibleImages = gallery.map((item, index) => ({ item, index })).filter(({ item }) => filter === 'All' || item.tag.en === filter)
-  function moveLightbox(direction: -1 | 1) {
-    if (active === null) return
+  const visibleImages = useMemo(() => gallery.map((item, index) => ({ item, index })).filter(({ item }) => filter === 'All' || item.tag.en === filter), [filter])
+  const moveLightbox = useCallback((direction: -1 | 1) => {
+    if (active === null || visibleImages.length === 0) return
     const current = visibleImages.findIndex(image => image.index === active)
     const next = (current + direction + visibleImages.length) % visibleImages.length
     setActive(visibleImages[next].index)
-  }
+  }, [active, visibleImages])
   useEffect(() => {
     if (active === null) return
     const previousFocus = document.activeElement as HTMLElement | null
@@ -95,6 +104,14 @@ export function Gallery() {
       if (event.key === 'Escape') setActive(null)
       if (event.key === 'ArrowLeft') moveLightbox(-1)
       if (event.key === 'ArrowRight') moveLightbox(1)
+      if (event.key === 'Tab') {
+        const focusable = Array.from(lightboxRef.current?.querySelectorAll<HTMLButtonElement>('button:not([disabled])') ?? [])
+        if (!focusable.length) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+      }
     }
     window.addEventListener('keydown', handleKey)
     return () => {
@@ -102,8 +119,8 @@ export function Gallery() {
       document.body.style.overflow = previousOverflow
       previousFocus?.focus()
     }
-  })
-  return <><PageMeta title={lang === 'hi' ? 'गैलरी' : 'Gallery'} /><PageHero eyebrow={lang === 'hi' ? 'दृश्य गैलरी' : 'Visual gallery'} title={lang === 'hi' ? 'ठहराव की एक शांत झलक' : 'A quiet glimpse of the experience'} text={lang === 'hi' ? 'यहाँ दिखाए गए दृश्य प्रतीकात्मक हैं और ठहराव के वातावरण को समझने में मदद करते हैं।' : 'These visuals are illustrative and help convey the intended stay experience.'} image={heroImage} /><section className="section"><div className="container"><div className="gallery-toolbar"><div><span className="eyebrow">{lang === 'hi' ? 'दृश्य संग्रह' : 'Visual collection'}</span><p>{lang === 'hi' ? 'प्रतीकात्मक visuals · कक्ष, परिसर और यात्रा वातावरण की झलक' : 'Illustrative visuals · rooms, spaces and the travel ambience'}</p></div><div role="group" aria-label={lang === 'hi' ? 'गैलरी श्रेणियाँ' : 'Gallery categories'}>{categories.map(category => <button key={category} className={filter === category ? 'active' : ''} aria-pressed={filter === category} onClick={() => { setFilter(category); setActive(null) }}>{category === 'All' ? (lang === 'hi' ? 'सभी' : 'All') : gallery.find(item => item.tag.en === category)?.tag[lang]}</button>)}</div></div><div className="gallery-page-grid">{visibleImages.map(({ item, index }) => <button onClick={() => setActive(index)} key={`${item.title.en}-${index}`}><img src={item.src} alt={item.title[lang]} loading="lazy" decoding="async" onError={handleImageError} /><span><small>{item.tag[lang]}</small><strong>{item.title[lang]}</strong></span><i><Maximize2 /></i></button>)}</div></div></section>{active !== null && <div className="lightbox" role="dialog" aria-modal="true" aria-label={lang === 'hi' ? 'चित्र पूर्वावलोकन' : 'Image preview'} onMouseDown={event => { if (event.currentTarget === event.target) setActive(null) }}><button ref={closeButtonRef} className="lightbox__close" aria-label={lang === 'hi' ? 'पूर्वावलोकन बंद करें' : 'Close preview'} onClick={() => setActive(null)}><X /></button><button className="lightbox__nav lightbox__nav--prev" aria-label={lang === 'hi' ? 'पिछला चित्र' : 'Previous image'} onClick={() => moveLightbox(-1)}><ChevronLeft /></button><img src={gallery[active].src} alt={gallery[active].title[lang]} onError={handleImageError} /><button className="lightbox__nav lightbox__nav--next" aria-label={lang === 'hi' ? 'अगला चित्र' : 'Next image'} onClick={() => moveLightbox(1)}><ChevronRight /></button><p aria-live="polite"><small>{lang === 'hi' ? 'प्रतीकात्मक दृश्य' : 'Illustrative view'}</small>{gallery[active].title[lang]}<em>{visibleImages.findIndex(image => image.index === active) + 1} / {visibleImages.length}</em></p></div>}</>
+  }, [active, moveLightbox])
+  return <><PageMeta title={lang === 'hi' ? 'गैलरी' : 'Gallery'} /><PageHero eyebrow={lang === 'hi' ? 'दृश्य गैलरी' : 'Visual gallery'} title={lang === 'hi' ? 'ठहराव की एक शांत झलक' : 'A quiet glimpse of the experience'} text={lang === 'hi' ? 'यहाँ दिखाए गए दृश्य प्रतीकात्मक हैं और ठहराव के वातावरण को समझने में मदद करते हैं।' : 'These visuals are illustrative and help convey the intended stay experience.'} image={heroImage} /><section className="section"><div className="container"><div className="gallery-toolbar"><div><span className="eyebrow">{lang === 'hi' ? 'दृश्य संग्रह' : 'Visual collection'}</span><p>{lang === 'hi' ? 'प्रतीकात्मक visuals · कक्ष, परिसर और यात्रा वातावरण की झलक' : 'Illustrative visuals · rooms, spaces and the travel ambience'}</p></div><div role="group" aria-label={lang === 'hi' ? 'गैलरी श्रेणियाँ' : 'Gallery categories'}>{categories.map(category => <button key={category} className={filter === category ? 'active' : ''} aria-pressed={filter === category} onClick={() => { setFilter(category); setActive(null) }}>{category === 'All' ? (lang === 'hi' ? 'सभी' : 'All') : gallery.find(item => item.tag.en === category)?.tag[lang]}</button>)}</div></div><div className="gallery-page-grid">{visibleImages.map(({ item, index }) => <button onClick={() => setActive(index)} key={`${item.title.en}-${index}`}><img src={item.src} alt={item.title[lang]} loading="lazy" decoding="async" onError={handleImageError} /><span><small>{item.tag[lang]}</small><strong>{item.title[lang]}</strong></span><i><Maximize2 /></i></button>)}</div></div></section>{active !== null && <div ref={lightboxRef} className="lightbox" role="dialog" aria-modal="true" aria-label={lang === 'hi' ? 'चित्र पूर्वावलोकन' : 'Image preview'} onMouseDown={event => { if (event.currentTarget === event.target) setActive(null) }}><button ref={closeButtonRef} className="lightbox__close" aria-label={lang === 'hi' ? 'पूर्वावलोकन बंद करें' : 'Close preview'} onClick={() => setActive(null)}><X /></button><button className="lightbox__nav lightbox__nav--prev" aria-label={lang === 'hi' ? 'पिछला चित्र' : 'Previous image'} onClick={() => moveLightbox(-1)}><ChevronLeft /></button><img src={gallery[active].src} alt={gallery[active].title[lang]} onError={handleImageError} /><button className="lightbox__nav lightbox__nav--next" aria-label={lang === 'hi' ? 'अगला चित्र' : 'Next image'} onClick={() => moveLightbox(1)}><ChevronRight /></button><p aria-live="polite"><small>{lang === 'hi' ? 'प्रतीकात्मक दृश्य' : 'Illustrative view'}</small>{gallery[active].title[lang]}<em>{visibleImages.findIndex(image => image.index === active) + 1} / {visibleImages.length}</em></p></div>}</>
 }
 
 export function Nearby() {

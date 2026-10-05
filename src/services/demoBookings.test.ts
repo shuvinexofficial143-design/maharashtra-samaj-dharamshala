@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createManagementSampleBooking, findDemoBooking, listDemoBookings, parseStoredBookings, resetDemoBookings, saveDemoBooking, updateDemoBookingStatus, type DemoBooking } from './demoBookings'
+import { createDemoReference, createManagementSampleBooking, findDemoBooking, listDemoBookings, parseStoredBookings, resetDemoBookings, saveDemoBooking, updateDemoBookingStatus, type DemoBooking } from './demoBookings'
 
 class MemoryStorage implements Storage {
   private values = new Map<string, string>()
@@ -12,7 +12,7 @@ class MemoryStorage implements Storage {
 }
 
 const booking: DemoBooking = {
-  reference: 'MSD-DEMO-ABC123', guestName: 'Demo Guest', mobile: '9876543210', city: 'Pune', roomId: 'family-room',
+  reference: 'MSD-ABC123', guestName: 'Demo Guest', mobile: '9876543210', city: 'Pune', roomId: 'family-room',
   roomName: 'Family Room', checkIn: '2026-09-01', checkOut: '2026-09-03', adults: 2, children: 1, roomCount: 1,
   nights: 2, demoTariff: 1650, estimatedDemoTotal: 3300, status: 'received', createdAt: '2026-08-16T10:00:00.000Z', updatedAt: '2026-08-16T10:00:00.000Z',
 }
@@ -24,11 +24,15 @@ describe('demo booking storage', () => {
     expect(parseStoredBookings('[{"reference":"bad"}]')).toEqual([])
   })
 
+  it('creates a clean public booking reference', () => {
+    expect(createDemoReference([])).toMatch(/^MSD-[A-Z0-9]{6}$/)
+  })
+
   it('persists and finds a valid booking', () => {
     const storage = new MemoryStorage()
     expect(saveDemoBooking(booking, storage)).toBe(true)
     expect(listDemoBookings(storage)).toHaveLength(1)
-    expect(findDemoBooking('msd-demo-abc123', storage)?.guestName).toBe('Demo Guest')
+    expect(findDemoBooking('msd-abc123', storage)?.guestName).toBe('Demo Guest')
   })
 
   it('updates status without losing booking details', () => {

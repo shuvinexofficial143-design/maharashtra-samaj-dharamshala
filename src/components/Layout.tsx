@@ -50,15 +50,15 @@ export function Layout({ children }: { children: ReactNode }) {
           </Link>
           <nav className="desktop-nav" aria-label="Main navigation">{navItems.map(item => <NavLink key={item.to} to={item.to} end={item.to === '/'}>{item[lang]}</NavLink>)}</nav>
           <div className="nav-actions">
-            <div className="language-switch" aria-label="Language selection"><Languages size={16} /><button className={lang === 'hi' ? 'active' : ''} onClick={() => setLang('hi')}>हिन्दी</button><span>|</span><button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>English</button></div>
+            <div className="language-switch" aria-label="Language selection"><Languages size={16} /><button type="button" className={lang === 'hi' ? 'active' : ''} onClick={() => setLang('hi')}>हिन्दी</button><span>|</span><button type="button" className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>English</button></div>
             <Link className="btn btn--primary btn--nav" to="/booking"><CalendarDays size={17} />{lang === 'hi' ? 'बुक करें' : 'Book now'}</Link>
-            <button className="menu-button" onClick={() => setOpen(v => !v)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>{open ? <X /> : <Menu />}</button>
+            <button className="menu-button" type="button" onClick={() => setOpen(v => !v)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="mobile-navigation">{open ? <X /> : <Menu />}</button>
           </div>
         </div>
       </header>}
-      {!usesMinimalShell && <div className={`mobile-menu ${open ? 'is-open' : ''}`} aria-hidden={!open}>
-        <nav>{navItems.map((item, index) => <NavLink key={item.to} to={item.to} end={item.to === '/'} onClick={() => setOpen(false)}><span>0{index + 1}</span>{item[lang]}<ArrowUpRight size={18} /></NavLink>)}<NavLink to="/faq" onClick={() => setOpen(false)}><span>08</span>{lang === 'hi' ? 'सामान्य प्रश्न' : 'FAQ'}<ArrowUpRight size={18} /></NavLink></nav>
-        <div className="mobile-menu__footer"><p>{lang === 'hi' ? 'यात्रा में सहायता चाहिए?' : 'Need help planning your stay?'}</p><a href={`tel:${siteConfig.phoneLink}`}><Phone size={18} />{siteConfig.phoneDisplay}</a></div>
+      {!usesMinimalShell && <div id="mobile-navigation" className={`mobile-menu ${open ? 'is-open' : ''}`} aria-hidden={!open}>
+        <nav>{navItems.map((item, index) => <NavLink key={item.to} to={item.to} end={item.to === '/'} onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}><span>0{index + 1}</span>{item[lang]}<ArrowUpRight size={18} /></NavLink>)}<NavLink to="/faq" onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}><span>08</span>{lang === 'hi' ? 'सामान्य प्रश्न' : 'FAQ'}<ArrowUpRight size={18} /></NavLink></nav>
+        <div className="mobile-menu__footer"><p>{lang === 'hi' ? 'यात्रा में सहायता चाहिए?' : 'Need help planning your stay?'}</p><a href={`tel:${siteConfig.phoneLink}`} tabIndex={open ? 0 : -1}><Phone size={18} />{siteConfig.phoneDisplay}</a></div>
       </div>}
       <main id="main-content" className={isAIAssistant ? 'main--ai' : undefined}>{children}</main>
       {!usesMinimalShell && <Footer />}

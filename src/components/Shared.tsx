@@ -9,8 +9,37 @@ import { siteConfig } from '../data/site'
 import type { Availability, Room } from '../types'
 import { handleImageError } from '../services/imageFallback'
 
-export function PageMeta({ title }: { title: string }) {
-  useEffect(() => { document.title = `${title} | ${siteConfig.businessName}` }, [title])
+const defaultMetaDescription = 'Maharashtra Samaj Dharamshala in Ujjain — rooms, stay requests, Ujjain travel guidance and direct contact in Hindi and English.'
+
+function setMeta(selector: string, attribute: 'name' | 'property', key: string, content: string) {
+  let element = document.head.querySelector<HTMLMetaElement>(selector)
+  if (!element) {
+    element = document.createElement('meta')
+    element.setAttribute(attribute, key)
+    document.head.appendChild(element)
+  }
+  element.content = content
+}
+
+export function PageMeta({ title, description = defaultMetaDescription }: { title: string; description?: string }) {
+  useEffect(() => {
+    const fullTitle = `${title} | ${siteConfig.businessName}`
+    const canonicalUrl = `${window.location.origin}${window.location.pathname}`
+    document.title = fullTitle
+    setMeta('meta[name="description"]', 'name', 'description', description)
+    setMeta('meta[property="og:title"]', 'property', 'og:title', fullTitle)
+    setMeta('meta[property="og:description"]', 'property', 'og:description', description)
+    setMeta('meta[property="og:type"]', 'property', 'og:type', 'website')
+    setMeta('meta[property="og:url"]', 'property', 'og:url', canonicalUrl)
+    setMeta('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image')
+    let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.rel = 'canonical'
+      document.head.appendChild(canonical)
+    }
+    canonical.href = canonicalUrl
+  }, [description, title])
   return null
 }
 
@@ -73,7 +102,7 @@ export function RoomCard({ room }: { room: Room }) {
         <p className="room-card__note">*{lang === 'hi' ? 'दिखाया गया टैरिफ — अंतिम दर अनुरोध की पुष्टि पर तय होगी' : 'Displayed tariff — final rate is confirmed with the request'}</p>
         <div className="room-card__actions">
           <Link className="btn btn--ghost" to={`/rooms/${room.id}`}>{lang === 'hi' ? 'विवरण देखें' : 'View details'}</Link>
-          <Link className={`btn btn--primary ${room.availability === 'soldout' ? 'is-disabled' : ''}`} to={`/booking?room=${room.id}`} aria-disabled={room.availability === 'soldout'}>{lang === 'hi' ? 'यह कक्ष बुक करें' : 'Book this room'}</Link>
+          {room.availability === 'soldout' ? <button className="btn btn--primary is-disabled" type="button" disabled>{lang === 'hi' ? 'अभी उपलब्ध नहीं' : 'Currently unavailable'}</button> : <Link className="btn btn--primary" to={`/booking?room=${room.id}`}>{lang === 'hi' ? 'यह कक्ष बुक करें' : 'Book this room'}</Link>}
         </div>
       </div>
     </article>

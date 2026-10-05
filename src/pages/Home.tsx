@@ -5,6 +5,13 @@ import { AmenityIcon, DemoNotice, PageMeta, RoomCard, SectionHeading } from '../
 import { useLanguage } from '../context/LanguageContext'
 import { facilities, faqs, facilityImage, gallery, heroImage, nearbyPlaces, rooms, siteConfig } from '../data/site'
 
+function addDays(date: string, days: number) {
+  if (!date) return ''
+  const parsed = new Date(`${date}T12:00:00`)
+  parsed.setDate(parsed.getDate() + days)
+  return parsed.toISOString().split('T')[0]
+}
+
 export function Home() {
   const { lang } = useLanguage()
   const navigate = useNavigate()
@@ -12,6 +19,7 @@ export function Home() {
   const [checkOut, setCheckOut] = useState('')
   const [guests, setGuests] = useState(2)
   const today = new Date().toISOString().split('T')[0]
+  const checkOutMin = checkIn ? addDays(checkIn, 1) : today
   const checkAvailability = () => {
     const query = new URLSearchParams()
     if (checkIn) query.set('checkIn', checkIn)
@@ -47,9 +55,9 @@ export function Home() {
       <div className="container availability-wrap reveal reveal--delay">
         <div className="availability-bar">
           <div className="availability-bar__intro"><span className="mini-icon"><CalendarDays /></span><div><strong>{lang === 'hi' ? 'उपलब्धता जाँचें' : 'Check availability'}</strong><small>{lang === 'hi' ? 'अपनी यात्रा की तारीख चुनें' : 'Select your travel dates'}</small></div></div>
-          <label><span>{lang === 'hi' ? 'आगमन' : 'Check-in'}</span><input type="date" min={today} value={checkIn} onChange={e => setCheckIn(e.target.value)} /></label>
-          <label><span>{lang === 'hi' ? 'प्रस्थान' : 'Check-out'}</span><input type="date" min={checkIn || today} value={checkOut} onChange={e => setCheckOut(e.target.value)} /></label>
-          <label><span>{lang === 'hi' ? 'अतिथि' : 'Guests'}</span><select value={guests} onChange={event => setGuests(Number(event.target.value))}><option value="1">1 {lang === 'hi' ? 'अतिथि' : 'guest'}</option><option value="2">2 {lang === 'hi' ? 'अतिथि' : 'guests'}</option><option value="4">4 {lang === 'hi' ? 'अतिथि' : 'guests'}</option><option value="5">5+ {lang === 'hi' ? 'अतिथि' : 'guests'}</option></select></label>
+          <label><span>{lang === 'hi' ? 'आगमन' : 'Check-in'}</span><input type="date" min={today} value={checkIn} onChange={e => { const value = e.target.value; setCheckIn(value); if (checkOut && checkOut <= value) setCheckOut('') }} /></label>
+          <label><span>{lang === 'hi' ? 'प्रस्थान' : 'Check-out'}</span><input type="date" min={checkOutMin} value={checkOut} onChange={e => setCheckOut(e.target.value)} /></label>
+          <label><span>{lang === 'hi' ? 'अतिथि' : 'Guests'}</span><select value={guests} onChange={event => setGuests(Number(event.target.value))}><option value="1">1 {lang === 'hi' ? 'अतिथि' : 'guest'}</option><option value="2">2 {lang === 'hi' ? 'अतिथि' : 'guests'}</option><option value="4">4 {lang === 'hi' ? 'अतिथि' : 'guests'}</option><option value="5">5 {lang === 'hi' ? 'अतिथि' : 'guests'}</option></select></label>
           <button className="btn btn--primary btn--check" onClick={checkAvailability}>{lang === 'hi' ? 'कक्ष देखें' : 'View rooms'}<ArrowRight size={17} /></button>
         </div>
         <p className="availability-wrap__note"><Sparkles size={13} /> {lang === 'hi' ? 'कक्ष की अंतिम उपलब्धता booking request की समीक्षा पर confirm होती है।' : 'Final room availability is confirmed when the booking request is reviewed.'}</p>
