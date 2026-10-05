@@ -48,7 +48,7 @@ export function getDemoAssistantResponse(prompt: string, lang: Lang): string {
   if (containsAny(query, ['payment', 'pay', 'tariff', 'price', 'भुगतान', 'पेमेंट', 'किराया', 'टैरिफ'])) {
     return lang === 'hi'
       ? 'इस booking flow में online payment collect नहीं होता। अंतिम price, taxes, payment method और cancellation terms confirmation के समय check करें।'
-      : 'This website concept does not collect real payment. All tariffs are samples. Real pricing, taxes, payment methods and cancellation terms must be confirmed by management.'
+      : 'This booking flow does not collect online payment. Confirm final pricing, taxes, payment method and cancellation terms at confirmation.'
   }
 
   if (containsAny(query, ['contact', 'call', 'whatsapp', 'phone', 'संपर्क', 'कॉल', 'फ़ोन', 'फोन'])) {
