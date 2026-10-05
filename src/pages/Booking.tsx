@@ -190,7 +190,7 @@ function BookingAside({ data, room, nights, estimated, lang, roomName }: { data:
 }
 
 const statusLabels = {
-  received: { hi: 'अनुरोध प्राप्त हुआ', en: 'Request Received' },
+  received: { hi: 'अनुरोध तैयार', en: 'Request Created' },
   awaiting: { hi: 'पुष्टि की प्रतीक्षा', en: 'Awaiting Confirmation' },
   confirmed: { hi: 'पुष्टि हुई', en: 'Confirmed' },
   cancelled: { hi: 'रद्द किया गया', en: 'Cancelled' },
