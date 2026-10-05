@@ -123,7 +123,7 @@ export function Booking() {
     setStorageSaved(saved)
     setBooking(created)
     setStep(6)
-    showToast(lang === 'hi' ? 'डेमो बुकिंग अनुरोध बनाया गया' : 'Demo booking request created')
+    showToast(lang === 'hi' ? 'बुकिंग अनुरोध तैयार है' : 'Booking request ready')
   }
 
   async function copyReference(reference: string) {
