@@ -145,8 +145,8 @@ export function AssistantExperience() {
         <div><h1>{lang === 'hi' ? 'AI यात्रा सहायक' : 'AI Travel Assistant'}</h1><p>{lang === 'hi' ? 'Stay · Booking · Ujjain' : 'Stay · Booking · Ujjain'}</p></div>
       </div>
       <div className="ai-app-bar__actions">
-        <span className={`ai-status ai-status--${activeMode}`} role="status" aria-label={activeMode === 'live' ? 'Live AI active' : 'Demo mode active'}>
-          <i />{activeMode === 'live' ? 'Live AI' : recovered ? (lang === 'hi' ? 'Demo fallback' : 'Demo fallback') : 'Demo'}
+        <span className={`ai-status ai-status--${activeMode}`} role="status" aria-label={activeMode === 'live' ? 'Live AI active' : 'Assistant ready'}>
+          <i />{activeMode === 'live' ? 'Live AI' : recovered ? (lang === 'hi' ? 'ऑफलाइन सहायता' : 'Offline guidance') : (lang === 'hi' ? 'AI सहायक' : 'AI Assistant')}
         </span>
         <div className="ai-language" aria-label={lang === 'hi' ? 'भाषा चुनें' : 'Choose language'}>
           <button type="button" className={lang === 'hi' ? 'active' : ''} onClick={() => setLang('hi')} aria-label="हिन्दी">हि</button>
@@ -166,7 +166,7 @@ export function AssistantExperience() {
             <div className="ai-message__content">
               <small>{message.role === 'assistant' ? (lang === 'hi' ? 'AI यात्रा सहायक' : 'AI Travel Assistant') : (lang === 'hi' ? 'आप' : 'You')}</small>
               <p>{message.id === 'welcome' ? welcomeMessage(lang).content : message.content}</p>
-              {message.role === 'assistant' && message.id !== 'welcome' && <em>{message.mode === 'live' ? 'Live AI' : message.recovered ? 'Demo fallback' : 'Site-aware demo'}</em>}
+              {message.role === 'assistant' && message.id !== 'welcome' && <em>{message.mode === 'live' ? 'Live AI' : message.recovered ? (lang === 'hi' ? 'ऑफलाइन सहायता' : 'Offline guidance') : (lang === 'hi' ? 'वेबसाइट सहायक' : 'Website assistant')}</em>}
             </div>
           </article>)}
           {busy && <article className="ai-message ai-message--assistant ai-message--typing" role="status">
@@ -180,7 +180,7 @@ export function AssistantExperience() {
     <div className="ai-chat-controls">
         {recovered && <div className="ai-fallback-note" role="status">
           <CircleAlert />
-          <span><strong>{lang === 'hi' ? 'Live AI उपलब्ध नहीं था' : 'Live AI was unavailable'}</strong>{lang === 'hi' ? 'सुरक्षित demo उत्तर दिखाया गया।' : 'A safe demo answer was shown.'}</span>
+          <span><strong>{lang === 'hi' ? 'Live AI उपलब्ध नहीं था' : 'Live AI was unavailable'}</strong>{lang === 'hi' ? 'वेबसाइट की उपलब्ध जानकारी से उत्तर दिखाया गया।' : 'An answer was shown using the website information available.'}</span>
           <button type="button" disabled={busy || !lastPrompt} onClick={() => void sendPrompt(lastPrompt)}><RefreshCw />{lang === 'hi' ? 'फिर कोशिश' : 'Retry'}</button>
         </div>}
 
