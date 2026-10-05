@@ -61,7 +61,7 @@ export function RoomCard({ room }: { room: Room }) {
       <div className="room-card__media">
         <img src={room.image} alt={tx(room.name)} loading="lazy" decoding="async" onError={handleImageError} />
         <AvailabilityBadge status={room.availability} />
-        <span className="concept-label">{lang === 'hi' ? 'डेमो चित्र' : 'Concept image'}</span>
+        <span className="concept-label">{lang === 'hi' ? 'प्रतीकात्मक दृश्य' : 'Illustrative view'}</span>
       </div>
       <div className="room-card__body">
         <div className="room-card__title"><div><h3>{tx(room.name)}</h3><p>{tx(room.tagline)}</p></div><span className="room-card__price"><strong>₹{room.tariff.toLocaleString('en-IN')}</strong> <small>/{lang === 'hi' ? 'रात*' : 'night*'}</small></span></div>
@@ -70,7 +70,7 @@ export function RoomCard({ room }: { room: Room }) {
           <span><BedDouble size={17} /> {tx(room.beds)}</span>
           <span><Wind size={17} /> {tx(room.cooling)}</span>
         </div>
-        <p className="room-card__note">*{lang === 'hi' ? 'डेमो टैरिफ — अंतिम दर प्रबंधन द्वारा पुष्टि होगी' : 'Demo tariff — final rate to be confirmed by management'}</p>
+        <p className="room-card__note">*{lang === 'hi' ? 'दिखाया गया टैरिफ — अंतिम दर अनुरोध की पुष्टि पर तय होगी' : 'Displayed tariff — final rate is confirmed with the request'}</p>
         <div className="room-card__actions">
           <Link className="btn btn--ghost" to={`/rooms/${room.id}`}>{lang === 'hi' ? 'विवरण देखें' : 'View details'}</Link>
           <Link className={`btn btn--primary ${room.availability === 'soldout' ? 'is-disabled' : ''}`} to={`/booking?room=${room.id}`} aria-disabled={room.availability === 'soldout'}>{lang === 'hi' ? 'यह कक्ष बुक करें' : 'Book this room'}</Link>
@@ -82,7 +82,7 @@ export function RoomCard({ room }: { room: Room }) {
 
 export function DemoNotice({ compact = false }: { compact?: boolean }) {
   const { lang } = useLanguage()
-  return <div className={`demo-notice ${compact ? 'demo-notice--compact' : ''}`}><ShieldCheck size={20} /><p><strong>{lang === 'hi' ? 'प्रस्तुति डेमो' : 'Presentation demo'}</strong>{lang === 'hi' ? ' — यहाँ दिखाई गई उपलब्धता, टैरिफ और पुष्टि केवल नमूना डेटा है।' : ' — Availability, tariffs and confirmations shown here are sample data only.'}</p></div>
+  return <div className={`demo-notice ${compact ? 'demo-notice--compact' : ''}`}><ShieldCheck size={20} /><p><strong>{lang === 'hi' ? 'बुकिंग जानकारी' : 'Booking information'}</strong>{lang === 'hi' ? ' — कक्ष आवंटन, टैरिफ और उपलब्धता अनुरोध की समीक्षा के समय अंतिम रूप से पुष्टि की जाती है।' : ' — Room allocation, tariffs and availability are finally confirmed when the request is reviewed.'}</p></div>
 }
 
 export function TrustStrip() {
