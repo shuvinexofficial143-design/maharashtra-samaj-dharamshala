@@ -217,7 +217,7 @@ export function BookingStatus() {
   function search(event: FormEvent) {
     event.preventDefault()
     const normalized = input.trim().toUpperCase()
-    const valid = /^MSD-[A-Z0-9]{6}$/.test(normalized)
+    const valid = /^MSD-(?:DEMO-)?[A-Z0-9]{6}$/.test(normalized)
     setInvalid(!valid)
     setSearched(valid)
     setFound(valid ? findByReference(normalized) : null)

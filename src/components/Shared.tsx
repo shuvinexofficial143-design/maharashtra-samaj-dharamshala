@@ -5,7 +5,7 @@ import {
   ShieldCheck, Sparkles, UtensilsCrossed, Users, Wifi, Wind,
 } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
-import { siteConfig } from '../data/site'
+import { heroImage, siteConfig } from '../data/site'
 import type { Availability, Room } from '../types'
 import { handleImageError } from '../services/imageFallback'
 
@@ -25,13 +25,18 @@ export function PageMeta({ title, description = defaultMetaDescription }: { titl
   useEffect(() => {
     const fullTitle = `${title} | ${siteConfig.businessName}`
     const canonicalUrl = `${window.location.origin}${window.location.pathname}`
+    const socialImage = `${window.location.origin}${heroImage}`
     document.title = fullTitle
     setMeta('meta[name="description"]', 'name', 'description', description)
     setMeta('meta[property="og:title"]', 'property', 'og:title', fullTitle)
     setMeta('meta[property="og:description"]', 'property', 'og:description', description)
     setMeta('meta[property="og:type"]', 'property', 'og:type', 'website')
     setMeta('meta[property="og:url"]', 'property', 'og:url', canonicalUrl)
+    setMeta('meta[property="og:image"]', 'property', 'og:image', socialImage)
     setMeta('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image')
+    setMeta('meta[name="twitter:title"]', 'name', 'twitter:title', fullTitle)
+    setMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description)
+    setMeta('meta[name="twitter:image"]', 'name', 'twitter:image', socialImage)
     let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
     if (!canonical) {
       canonical = document.createElement('link')
@@ -39,6 +44,27 @@ export function PageMeta({ title, description = defaultMetaDescription }: { titl
       document.head.appendChild(canonical)
     }
     canonical.href = canonicalUrl
+    let schema = document.head.querySelector<HTMLScriptElement>('script[data-msd-schema]')
+    if (!schema) {
+      schema = document.createElement('script')
+      schema.type = 'application/ld+json'
+      schema.dataset.msdSchema = 'true'
+      document.head.appendChild(schema)
+    }
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'LodgingBusiness',
+      name: siteConfig.businessName,
+      url: window.location.origin,
+      telephone: siteConfig.phoneDisplay,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Ujjain',
+        addressRegion: 'Madhya Pradesh',
+        addressCountry: 'IN',
+      },
+      availableLanguage: ['hi', 'en'],
+    })
   }, [description, title])
   return null
 }
