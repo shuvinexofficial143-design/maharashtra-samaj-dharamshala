@@ -42,7 +42,7 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <a className="skip-link" href="#main-content">{lang === 'hi' ? 'मुख्य सामग्री पर जाएँ' : 'Skip to main content'}</a>
-      {!usesMinimalShell && <div className="topbar"><div className="container topbar__inner"><p><span className="pulse-dot" />{lang === 'hi' ? 'महाकाल यात्रा के लिए ठहराव — डेमो वेबसाइट' : 'A stay concept for your Mahakal journey — demo website'}</p><div><a href={`tel:${siteConfig.phoneLink}`}><Phone size={13} />{siteConfig.phoneDisplay}</a><Link to="/booking-status">{lang === 'hi' ? 'बुकिंग स्थिति' : 'Booking status'} <ChevronRight size={14} /></Link></div></div></div>}
+      {!usesMinimalShell && <div className="topbar"><div className="container topbar__inner"><p><span className="pulse-dot" />{lang === 'hi' ? 'महाकाल यात्रा के लिए सहज और पारिवारिक ठहराव' : 'A comfortable, family-friendly stay for your Mahakal journey'}</p><div><a href={`tel:${siteConfig.phoneLink}`}><Phone size={13} />{siteConfig.phoneDisplay}</a><Link to="/booking-status">{lang === 'hi' ? 'बुकिंग स्थिति' : 'Booking status'} <ChevronRight size={14} /></Link></div></div></div>}
       {!usesMinimalShell && <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
         <div className="container nav-wrap">
           <Link className="brand" to="/" aria-label={`${siteConfig.businessName} home`} onClick={() => setOpen(false)}>
@@ -84,13 +84,13 @@ function Footer() {
     <footer className="footer">
       <div className="footer__sun" aria-hidden="true" />
       <div className="container footer__grid">
-        <div className="footer__brand"><div className="brand brand--light"><span className="brand__mark"><span>ॐ</span></span><span className="brand__copy"><strong>{siteConfig.brandName}</strong><small>{siteConfig.propertyLabel[lang]}</small></span></div><p>{lang === 'hi' ? 'उज्जैन आने वाले श्रद्धालुओं और परिवारों के लिए सरल, स्वच्छ और स्नेहपूर्ण ठहराव की डिजिटल परिकल्पना।' : 'A considered digital concept for a simple, clean and warm stay for pilgrims and families visiting Ujjain.'}</p><div className="footer__quick-contact"><a href={`tel:${siteConfig.phoneLink}`}><Phone />{lang === 'hi' ? 'कॉल' : 'Call'}</a><a href={createWhatsappLink()} target="_blank" rel="noreferrer"><MessageCircle />WhatsApp</a></div></div>
+        <div className="footer__brand"><div className="brand brand--light"><span className="brand__mark"><span>ॐ</span></span><span className="brand__copy"><strong>{siteConfig.brandName}</strong><small>{siteConfig.propertyLabel[lang]}</small></span></div><p>{lang === 'hi' ? 'उज्जैन आने वाले श्रद्धालुओं और परिवारों के लिए सरल, स्वच्छ और स्नेहपूर्ण ठहराव।' : 'A simple, clean and welcoming stay for pilgrims and families visiting Ujjain.'}</p><div className="footer__quick-contact"><a href={`tel:${siteConfig.phoneLink}`}><Phone />{lang === 'hi' ? 'कॉल' : 'Call'}</a><a href={createWhatsappLink()} target="_blank" rel="noreferrer"><MessageCircle />WhatsApp</a></div></div>
         <div><h3>{lang === 'hi' ? 'जल्द पहुँचें' : 'Explore'}</h3><Link to="/rooms">{lang === 'hi' ? 'कक्ष एवं टैरिफ' : 'Rooms & tariffs'}</Link><Link to="/booking">{lang === 'hi' ? 'बुकिंग अनुरोध' : 'Booking request'}</Link><Link to="/nearby">{lang === 'hi' ? 'उज्जैन दर्शन' : 'Explore Ujjain'}</Link><Link to="/booking-status">{lang === 'hi' ? 'बुकिंग स्थिति' : 'Booking status'}</Link></div>
         <div><h3>{lang === 'hi' ? 'जानकारी' : 'Information'}</h3><Link to="/facilities">{lang === 'hi' ? 'सुविधाएँ' : 'Facilities'}</Link><Link to="/faq">{lang === 'hi' ? 'सामान्य प्रश्न' : 'FAQ'}</Link><Link to="/contact">{lang === 'hi' ? 'संपर्क व दिशा' : 'Contact & directions'}</Link></div>
         <div><h3>{lang === 'hi' ? 'कक्ष' : 'Rooms'}</h3>{rooms.map(room => <Link key={room.id} to={`/rooms/${room.id}`}>{room.name[lang]}</Link>)}</div>
         <div className="footer__address"><h3>{lang === 'hi' ? 'हम तक पहुँचें' : 'Find us'}</h3><p><MapPin size={18} />{siteConfig.address[lang]}</p><a className="text-link text-link--light" href={siteConfig.directionsLink} target="_blank" rel="noreferrer">{lang === 'hi' ? 'Maps में खोजें' : 'Search on Maps'} <ArrowUpRight size={15} /></a></div>
       </div>
-      <div className="container footer__bottom"><p>{siteConfig.disclaimer}</p><span>© {currentYear} · Demo concept</span></div>
+      <div className="container footer__bottom"><p>{siteConfig.disclaimer}</p><span>© {currentYear} · Ujjain, Madhya Pradesh</span></div>
     </footer>
   )
 }
