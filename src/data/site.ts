@@ -145,8 +145,3 @@ export const gallery = [
   { src: heroImage, title: { hi: 'यात्रा का शांत पड़ाव', en: 'A restful pilgrimage stop' }, tag: { hi: 'उज्जैन', en: 'Ujjain' } },
 ] as const
 
-export const testimonials = [
-  { quote: { hi: 'दर्शन यात्रा के लिए साफ, सरल और भरोसेमंद stay experience की यही अपेक्षा रहती है।', en: 'Exactly the kind of clean, straightforward stay experience pilgrims look for.' }, name: 'Sample Guest A', city: 'Demo testimonial · Nashik' },
-  { quote: { hi: 'परिवार के साथ बुकिंग की जानकारी एक जगह मिलना बहुत उपयोगी होगा।', en: 'Having family-room and booking information in one place would be very helpful.' }, name: 'Sample Guest B', city: 'Demo testimonial · Pune' },
-  { quote: { hi: 'महाकाल यात्रा की planning और stay request साथ होने से अनुभव आसान लगता है।', en: 'Combining trip planning with a stay request makes the journey feel easier.' }, name: 'Sample Guest C', city: 'Demo testimonial · Indore' },
-] as const
