@@ -49,7 +49,7 @@ export function isDemoBooking(value: unknown): value is DemoBooking {
   if (!value || typeof value !== 'object') return false
   const item = value as Partial<DemoBooking>
   return typeof item.reference === 'string'
-    && /^MSD-DEMO-[A-Z0-9]{6}$/.test(item.reference)
+    && /^MSD-(?:DEMO-)?[A-Z0-9]{6}$/.test(item.reference)
     && typeof item.guestName === 'string'
     && typeof item.mobile === 'string'
     && typeof item.city === 'string'
@@ -102,10 +102,10 @@ export function createDemoReference(existing = listDemoBookings().map(item => it
     if (typeof crypto !== 'undefined' && crypto.getRandomValues) crypto.getRandomValues(bytes)
     else bytes.forEach((_, index) => { bytes[index] = (Date.now() + index * 17) % 256 })
     const suffix = Array.from(bytes, value => (value % 36).toString(36)).join('').toUpperCase()
-    const reference = `MSD-DEMO-${suffix}`
+    const reference = `MSD-${suffix}`
     if (!existing.includes(reference)) return reference
   }
-  return `MSD-DEMO-${Date.now().toString(36).slice(-6).toUpperCase().padStart(6, '0')}`
+  return `MSD-${Date.now().toString(36).slice(-6).toUpperCase().padStart(6, '0')}`
 }
 
 export function saveDemoBooking(booking: DemoBooking, storage: Storage | null = getBrowserStorage()): boolean {
@@ -170,9 +170,9 @@ export function createManagementSampleBooking(room: { id: string; name: string; 
 
 export const sampleDemoBookings: DemoBooking[] = [
   {
-    reference: 'MSD-DEMO-SMP101', guestName: 'Sunita Deshmukh', mobile: '98••••••21', city: 'Pune', roomId: 'standard-ac', roomName: 'Standard AC Room', checkIn: '2026-08-18', checkOut: '2026-08-20', adults: 2, children: 0, roomCount: 1, nights: 2, demoTariff: 1250, estimatedDemoTotal: 2500, status: 'confirmed', createdAt: '2026-08-14T09:30:00.000Z', updatedAt: '2026-08-15T10:15:00.000Z', isSample: true, isReadOnlySample: true,
+    reference: 'MSD-SMP101', guestName: 'Sunita Deshmukh', mobile: '98••••••21', city: 'Pune', roomId: 'standard-ac', roomName: 'Standard AC Room', checkIn: '2026-08-18', checkOut: '2026-08-20', adults: 2, children: 0, roomCount: 1, nights: 2, demoTariff: 1250, estimatedDemoTotal: 2500, status: 'confirmed', createdAt: '2026-08-14T09:30:00.000Z', updatedAt: '2026-08-15T10:15:00.000Z', isSample: true, isReadOnlySample: true,
   },
   {
-    reference: 'MSD-DEMO-SMP102', guestName: 'Rajesh Kulkarni', mobile: '97••••••48', city: 'Nashik', roomId: 'family-room', roomName: 'Family Room', checkIn: '2026-08-19', checkOut: '2026-08-22', adults: 3, children: 1, roomCount: 1, nights: 3, demoTariff: 1650, estimatedDemoTotal: 4950, status: 'awaiting', createdAt: '2026-08-15T07:10:00.000Z', updatedAt: '2026-08-15T07:10:00.000Z', isSample: true, isReadOnlySample: true,
+    reference: 'MSD-SMP102', guestName: 'Rajesh Kulkarni', mobile: '97••••••48', city: 'Nashik', roomId: 'family-room', roomName: 'Family Room', checkIn: '2026-08-19', checkOut: '2026-08-22', adults: 3, children: 1, roomCount: 1, nights: 3, demoTariff: 1650, estimatedDemoTotal: 4950, status: 'awaiting', createdAt: '2026-08-15T07:10:00.000Z', updatedAt: '2026-08-15T07:10:00.000Z', isSample: true, isReadOnlySample: true,
   },
 ]
