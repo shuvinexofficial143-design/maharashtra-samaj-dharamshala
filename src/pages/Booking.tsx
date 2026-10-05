@@ -66,11 +66,13 @@ export function Booking() {
   const today = new Date().toISOString().split('T')[0]
   const initialIn = query.get('checkIn') || ''
   const initialOut = query.get('checkOut') || ''
+  const requestedGuests = Number(query.get('guests') || '2')
+  const initialAdults = Number.isFinite(requestedGuests) ? Math.min(10, Math.max(1, Math.trunc(requestedGuests))) : 2
   const [step, setStep] = useState(initialIn && initialOut ? 2 : 0)
   const [error, setError] = useState('')
   const [booking, setBooking] = useState<DemoBooking | null>(null)
   const [storageSaved, setStorageSaved] = useState(true)
-  const [data, setData] = useState<BookingData>({ checkIn: initialIn, checkOut: initialOut, adults: 2, children: 0, roomCount: 1, roomId: query.get('room') || '', name: '', phone: '', email: '', city: '', request: '' })
+  const [data, setData] = useState<BookingData>({ checkIn: initialIn, checkOut: initialOut, adults: initialAdults, children: 0, roomCount: 1, roomId: query.get('room') || '', name: '', phone: '', email: '', city: '', request: '' })
   const room = rooms.find(item => item.id === data.roomId)
   const nights = getNights(data.checkIn, data.checkOut)
   const estimated = room ? room.tariff * nights * data.roomCount : 0
